@@ -16,26 +16,21 @@
 import React, { useEffect } from 'react';
 import { Table, TableColumn, Progress, Link } from '@backstage/core-components';
 import useAsync from 'react-use/lib/useAsync';
-import {
-  errorApiRef,
-  useApi,
-  githubAuthApiRef,
-} from '@backstage/core-plugin-api';
+import { errorApiRef, useApi } from '@backstage/core-plugin-api';
 import { scoreToColorConverter } from '../../helpers/scoreToColorConverter';
 import { Chip } from '@material-ui/core';
 import { getWarningPanel } from '../../helpers/getWarningPanel';
 import { scoringDataApiRef } from '../../api';
 import { EntityScoreExtended } from '../../api/types';
-import { EntityRefLink, useEntity } from '@backstage/plugin-catalog-react';
+import { EntityRefLink } from '@backstage/plugin-catalog-react';
 import { DEFAULT_NAMESPACE } from '@backstage/catalog-model';
 
 const useScoringAllDataLoader = (entityKindFilter?: string[]) => {
   const errorApi = useApi(errorApiRef);
   const scorigDataApi = useApi(scoringDataApiRef);
-  const { entity } = useEntity();
-  const auth = useApi(githubAuthApiRef);
+
   const { error, value, loading } = useAsync(
-    async () => scorigDataApi.getAllScores(entityKindFilter, entity, auth),
+    async () => scorigDataApi.getAllScores(entityKindFilter),
     [scorigDataApi],
   );
 
