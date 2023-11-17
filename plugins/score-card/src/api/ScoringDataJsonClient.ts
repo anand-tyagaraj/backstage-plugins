@@ -24,6 +24,8 @@ import {
   RELATION_OWNED_BY,
 } from '@backstage/catalog-model';
 
+import { Octokit } from '@octokit/rest';
+
 /**
  * Default JSON data client. Expects JSON files in a format see /sample-data
  */
@@ -46,33 +48,102 @@ export class ScoringDataJsonClient implements ScoringDataApi {
     this.fetchApi = fetchApi;
   }
 
+  private getAnnotationValue(entity: Entity, annotation: string) {
+    if (!entity.metadata.annotations) {
+      return undefined;
+    }
+
+    if (annotation && !entity.metadata.annotations[annotation]) {
+      return undefined;
+    }
+    return entity.metadata.annotations[annotation];
+  }
+
+  private async getResult<T>(
+    jsonDataUrl: string,
+    projectSlug: string,
+    auth?: any,
+  ): Promise<T> {
+    const token = await auth.getAccessToken(['repo']);
+
+    const octokit = new Octokit({ auth: token });
+    const owner = projectSlug?.split('/')[0] || '';
+    const repo = projectSlug?.split('/')[1] || '';
+
+    const result: T = await octokit
+      .request(`GET /repos/{owner}/{repo}/contents/${jsonDataUrl}`, {
+        baseUrl: 'https://api.github.com',
+        owner,
+        repo,
+        headers: {
+          Accept: 'application/vnd.github.v3.raw',
+        },
+      })
+      .then(res => {
+        switch (res.status) {
+          case 404:
+            return null;
+          case 200:
+            return JSON.parse(res.data);
+          default:
+            throw new Error(`error from server (code ${res.status})`);
+        }
+      });
+
+    return result;
+  }
+
   public async getScore(
     entity?: Entity,
+    auth?: any,
   ): Promise<EntityScoreExtended | undefined> {
     if (!entity) {
       return undefined;
     }
 
-    const jsonDataUrl = this.getJsonDataUrl();
-    const urlWithData = `${jsonDataUrl}${entity.metadata.namespace}/${entity.kind}/${entity.metadata.name}.json`.toLowerCase();
+    // Check if configured to read JSOn from annotation
 
-    const result: EntityScore = await fetch(urlWithData).then(res => {
-      switch (res.status) {
-        case 404:
-          return null;
-        case 200:
-          return res.json();
-        default:
-          throw new Error(`error from server (code ${res.status})`);
-      }
-    });
+    const jsonFromAnnotation = this.getAnnotationValue(
+      entity,
+      'scorecard/jsonDataUrl',
+    );
+    const projectSlug = this.getAnnotationValue(
+      entity,
+      'github.com/project-slug',
+    );
+
+    let result = undefined;
+    if (jsonFromAnnotation !== undefined && projectSlug !== undefined) {
+      result = await this.getResult<EntityScore>(
+        jsonFromAnnotation,
+        projectSlug,
+        auth,
+      );
+    } else {
+      const jsonDataUrl = jsonFromAnnotation ?? this.getJsonDataUrl();
+      const urlWithData =
+        `${jsonDataUrl}${entity.metadata.namespace}/${entity.kind}/${entity.metadata.name}.json`.toLowerCase();
+
+      result = await fetch(urlWithData).then(res => {
+        switch (res.status) {
+          case 404:
+            return null;
+          case 200:
+            return res.json();
+          default:
+            throw new Error(`error from server (code ${res.status})`);
+        }
+      });
+    }
     if (!result) {
       return undefined;
     }
     return this.extendEntityScore(result, undefined);
   }
 
-  public async getAllScores(entityKindFilter?: string[]): Promise<EntityScoreExtended[] | undefined> {
+  public async getAllScores(
+    entityKindFilter?: string[],
+  ): Promise<EntityScoreExtended[] | undefined> {
     const jsonDataUrl = this.getJsonDataUrl();
     const urlWithData = `${jsonDataUrl}all.json`;
     let result: EntityScore[] | undefined = await fetch(urlWithData).then(
@@ -91,7 +162,11 @@ export class ScoringDataJsonClient implements ScoringDataApi {
 
     // Filter entities by kind
     if (entityKindFilter && entityKindFilter.length) {
-      result = result.filter(entity => entityKindFilter.map(f => f.toLocaleLowerCase()).includes(entity.entityRef?.kind.toLowerCase() as string));
+      result = result.filter(entity =>
+        entityKindFilter
+          .map(f => f.toLocaleLowerCase())
+          .includes(entity.entityRef?.kind.toLowerCase() as string),
+      );
     }
 
     const entity_names: string[] = result.reduce((acc, a) => {
@@ -103,9 +178,8 @@ export class ScoringDataJsonClient implements ScoringDataApi {
 
     const response = await this.catalogApi.getEntities({
       filter: {
-        'metadata.name': entity_names
-
-       },
+        'metadata.name': entity_names,
+      },
       fields: ['kind', 'metadata.name', 'spec.owner', 'relations'],
     });
     const entities: Entity[] = response.items;
@@ -144,11 +218,22 @@ export class ScoringDataJsonClient implements ScoringDataApi {
     )?.targetRef;
 
     let reviewer = undefined;
-    if (score.scoringReviewer && !(score.scoringReviewer as CompoundEntityRef)?.name) {
-      reviewer = { name: score.scoringReviewer as string, kind: 'User', namespace: 'default' };
+    if (
+      score.scoringReviewer &&
+      !(score.scoringReviewer as CompoundEntityRef)?.name
+    ) {
+      reviewer = {
+        name: score.scoringReviewer as string,
+        kind: 'User',
+        namespace: 'default',
+      };
     } else if ((score.scoringReviewer as CompoundEntityRef)?.name) {
-      const scoringReviewer = score.scoringReviewer as CompoundEntityRef
-      reviewer = { name: scoringReviewer.name, kind: scoringReviewer?.kind ?? "User", namespace: scoringReviewer?.namespace ?? 'default' };
+      const scoringReviewer = score.scoringReviewer as CompoundEntityRef;
+      reviewer = {
+        name: scoringReviewer.name,
+        kind: scoringReviewer?.kind ?? 'User',
+        namespace: scoringReviewer?.namespace ?? 'default',
+      };
     }
 
     const reviewDate = score.scoringReviewDate
