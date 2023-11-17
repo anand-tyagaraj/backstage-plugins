@@ -20,11 +20,14 @@ import { TestApiProvider } from '@backstage/test-utils';
 import { ScoringDataApi, scoringDataApiRef } from '../../api';
 import { Entity } from '@backstage/catalog-model';
 import { EntityScoreExtended } from '../../api/types';
-import { errorApiRef } from '@backstage/core-plugin-api';
+import { errorApiRef, githubAuthApiRef } from '@backstage/core-plugin-api';
 import { lightTheme } from '@backstage/theme';
 import { ThemeProvider } from '@material-ui/core';
 import { MemoryRouter as Router } from 'react-router-dom';
 
+const mockAuth = {
+  getAccessToken: jest.fn(),
+};
 describe('ScoreBoardPage-EmptyData', () => {
   class MockClient implements ScoringDataApi {
     getScore(
@@ -53,6 +56,7 @@ describe('ScoreBoardPage-EmptyData', () => {
           apis={[
             [errorApiRef, errorApi],
             [scoringDataApiRef, mockClient],
+            [githubAuthApiRef, mockAuth],
           ]}
         >
           <ScoreCardTable />
@@ -119,6 +123,7 @@ describe('ScoreCard-TestWithData', () => {
           apis={[
             [errorApiRef, errorApi],
             [scoringDataApiRef, mockClient],
+            [githubAuthApiRef, mockAuth],
           ]}
         >
           <Router>

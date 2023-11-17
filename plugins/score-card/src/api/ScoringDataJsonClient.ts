@@ -143,11 +143,30 @@ export class ScoringDataJsonClient implements ScoringDataApi {
 
   public async getAllScores(
     entityKindFilter?: string[],
+    entity?: Entity,
+    auth?: any,
   ): Promise<EntityScoreExtended[] | undefined> {
-    const jsonDataUrl = this.getJsonDataUrl();
-    const urlWithData = `${jsonDataUrl}all.json`;
-    let result: EntityScore[] | undefined = await fetch(urlWithData).then(
-      res => {
+    let jsonFromAnnotation = undefined;
+    let projectSlug = undefined;
+    let result: EntityScore[];
+
+    if (entity !== undefined) {
+      jsonFromAnnotation = this.getAnnotationValue(
+        entity,
+        'scorecard/jsonDataUrl',
+      );
+      projectSlug = this.getAnnotationValue(entity, 'github.com/project-slug');
+    }
+    if (jsonFromAnnotation !== undefined && projectSlug !== undefined) {
+      result = await this.getResult<EntityScore[]>(
+        jsonFromAnnotation,
+        projectSlug,
+        auth,
+      );
+    } else {
+      const jsonDataUrl = this.getJsonDataUrl();
+      const urlWithData = `${jsonDataUrl}all.json`;
+      result = await fetch(urlWithData).then(res => {
         switch (res.status) {
           case 404:
             return undefined;
@@ -156,25 +175,28 @@ export class ScoringDataJsonClient implements ScoringDataApi {
           default:
             throw new Error(`error from server (code ${res.status})`);
         }
-      },
-    );
+      });
+    }
     if (!result) return undefined;
 
     // Filter entities by kind
-    if (entityKindFilter && entityKindFilter.length) {
-      result = result.filter(entity =>
+    if (entityKindFilter?.length) {
+      result = result.filter((ent: { entityRef: { kind: string } }) =>
         entityKindFilter
           .map(f => f.toLocaleLowerCase())
-          .includes(entity.entityRef?.kind.toLowerCase() as string),
+          .includes(ent.entityRef?.kind.toLowerCase()),
       );
     }
 
-    const entity_names: string[] = result.reduce((acc, a) => {
-      if (a.entityRef?.name) {
-        acc.push(a.entityRef.name);
-      }
-      return acc;
-    }, [] as string[]);
+    const entity_names: string[] = result.reduce(
+      (acc: any[], a: { entityRef: { name: any } }) => {
+        if (a.entityRef?.name) {
+          acc.push(a.entityRef.name);
+        }
+        return acc;
+      },
+      [] as string[],
+    );
 
     const response = await this.catalogApi.getEntities({
       filter: {
@@ -184,7 +206,7 @@ export class ScoringDataJsonClient implements ScoringDataApi {
     });
     const entities: Entity[] = response.items;
 
-    return result.map<EntityScoreExtended>(score => {
+    return result.map<EntityScoreExtended>((score: EntityScore) => {
       return this.extendEntityScore(score, entities);
     });
   }
