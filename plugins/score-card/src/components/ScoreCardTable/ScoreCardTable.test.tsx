@@ -24,7 +24,58 @@ import { errorApiRef, githubAuthApiRef } from '@backstage/core-plugin-api';
 import { lightTheme } from '@backstage/theme';
 import { ThemeProvider } from '@material-ui/core';
 import { MemoryRouter as Router } from 'react-router-dom';
+import { EntityProvider } from '@backstage/plugin-catalog-react';
 
+const entity = {
+  metadata: {
+    namespace: 'default',
+    annotations: {
+      'backstage.io/managed-by-location':
+        'url:https://github.com/philips-greenroom-test/sonar-test10/tree/master/catalog-info.yaml',
+      'backstage.io/managed-by-origin-location':
+        'url:https://github.com/philips-greenroom-test/sonar-test10/blob/master/catalog-info.yaml',
+      'backstage.io/view-url':
+        'https://github.com/philips-greenroom-test/sonar-test10/tree/master/catalog-info.yaml',
+      'backstage.io/edit-url':
+        'https://github.com/philips-greenroom-test/sonar-test10/edit/master/catalog-info.yaml',
+      'backstage.io/source-location':
+        'url:https://github.com/philips-greenroom-test/sonar-test10/tree/master/',
+      'backstage.io/techdocs-ref': 'dir:.',
+      'github.com/project-slug': 'philips-greenroom-test/sonar-test10',
+      'scorecard/jsonDataUrl': 'score.json',
+    },
+    name: 'sonar-test10',
+    title: 'sonar-test10',
+    description: 'A demo sonar-test repo',
+    links: [
+      {
+        url: 'https://some-demo.philips-internal.com',
+        title: 'Demo',
+        icon: 'dashboard',
+      },
+    ],
+    uid: '41af856a-8f58-45bb-9a27-d8f5bb1fd8e3',
+    etag: '9abe92f7496bc40f8022eb5232f08d64c45ea609',
+  },
+  apiVersion: 'backstage.io/v1alpha1',
+  kind: 'Component',
+  spec: {
+    type: 'website',
+    owner: 'swcoe',
+    lifecycle: 'experimental',
+  },
+  relations: [
+    {
+      type: 'ownedBy',
+      targetRef: 'group:default/swcoe',
+      target: {
+        kind: 'group',
+        namespace: 'default',
+        name: 'swcoe',
+      },
+    },
+  ],
+};
 const mockAuth = {
   getAccessToken: jest.fn(),
 };
@@ -59,7 +110,9 @@ describe('ScoreBoardPage-EmptyData', () => {
             [githubAuthApiRef, mockAuth],
           ]}
         >
-          <ScoreCardTable />
+          <EntityProvider entity={entity}>
+            <ScoreCardTable />
+          </EntityProvider>
         </TestApiProvider>
       </ThemeProvider>,
     );
@@ -127,7 +180,9 @@ describe('ScoreCard-TestWithData', () => {
           ]}
         >
           <Router>
-            <ScoreCardTable />
+            <EntityProvider entity={entity}>
+              <ScoreCardTable />
+            </EntityProvider>
           </Router>
         </TestApiProvider>
       </ThemeProvider>,
