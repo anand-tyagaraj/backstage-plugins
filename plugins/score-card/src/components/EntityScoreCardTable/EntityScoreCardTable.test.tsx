@@ -26,6 +26,7 @@ import { lightTheme } from '@backstage/theme';
 import { ThemeProvider } from '@material-ui/core';
 import { EntityProvider } from '@backstage/plugin-catalog-react';
 import { MemoryRouter as Router } from 'react-router-dom';
+import { ScoreTable } from '../ScoreCardTable/ScoreCardTable';
 
 // entity Object
 const entity = {
@@ -300,7 +301,7 @@ describe('ScoreCardTable', () => {
         >
           <Router>
             <EntityProvider entity={entity}>
-              <EntityScoreCardTable />
+              <ScoreTable scores={[]} />
             </EntityProvider>
           </Router>
         </TestApiProvider>
