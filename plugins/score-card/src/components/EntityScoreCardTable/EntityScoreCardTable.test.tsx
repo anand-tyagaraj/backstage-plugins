@@ -84,54 +84,6 @@ const mockAuth = {
 };
 
 const authObj: any = {
-  //   sessionManager: {
-  //     connector: {
-  //       discoveryApi: {
-  //         parts: ['http://localhost:3000/api/', ''],
-  //       },
-  //       environment: 'development',
-  //       provider: {
-  //         id: 'github',
-  //         title: 'GitHub',
-  //       },
-  //       enableExperimentalRedirectFlow: true,
-  //     },
-  //     helper: {
-  //       options: {
-  //         defaultScopes: {},
-  //       },
-  //     },
-  //     stateTracker: {
-  //       subject: {
-  //         isClosed: false,
-  //         currentValue: 'SignedIn',
-  //         observable: {},
-  //         subscribers: {},
-  //       },
-  //       signedIn: true,
-  //     },
-  //     currentSession: {
-  //       backstageIdentity: {
-  //         token:
-  //           'eyJhbGciOiJFUzI1NiIsImtpZCI6IjAzZjlhOTBmLTYyZTgtNGZjNC04MzUxLTkyYjI2Yzg4MDIyMSJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAvYXBpL2F1dGgiLCJzdWIiOiJ1c2VyOmRlZmF1bHQvcHJhdGVlay13YXluZSIsImVudCI6WyJ1c2VyOmRlZmF1bHQvcHJhdGVlay13YXluZSJdLCJhdWQiOiJiYWNrc3RhZ2UiLCJpYXQiOjE2OTg5MjI2MzQsImV4cCI6MTY5ODkyNjIzNH0.IqKYOPwT9aJZu_OTqOmWxGirYjP3JSRRB7zIYyswmnRgcR302EzTXTeDfPzKgAup_i975pdUL97AsU3_TuhNXw',
-  //         identity: {
-  //           type: 'user',
-  //           userEntityRef: 'user:default/prateek-wayne',
-  //           ownershipEntityRefs: ['user:default/prateek-wayne'],
-  //         },
-  //       },
-  //       providerInfo: {
-  //         accessToken: 'ghu_FxFTgI9kxSxNDwZvcf8mCDq33Ue38J0ZcLWs',
-  //         scopes: {},
-  //         expiresAt: '2023-11-02T11:57:14.173Z',
-  //       },
-  //       profile: {
-  //         email: 'lordprateekverma@gmail.com',
-  //         picture: 'https://avatars.githubusercontent.com/u/114328592?v=4',
-  //         displayName: 'Prateek Wayne',
-  //       },
-  //     },
-  //   },
   getAccessToken: async () => {
     return '12345';
   },
