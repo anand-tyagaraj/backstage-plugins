@@ -83,54 +83,54 @@ const mockAuth = {
 };
 
 const authObj: any = {
-  sessionManager: {
-    connector: {
-      discoveryApi: {
-        parts: ['http://localhost:3000/api/', ''],
-      },
-      environment: 'development',
-      provider: {
-        id: 'github',
-        title: 'GitHub',
-      },
-      enableExperimentalRedirectFlow: true,
-    },
-    helper: {
-      options: {
-        defaultScopes: {},
-      },
-    },
-    stateTracker: {
-      subject: {
-        isClosed: false,
-        currentValue: 'SignedIn',
-        observable: {},
-        subscribers: {},
-      },
-      signedIn: true,
-    },
-    currentSession: {
-      backstageIdentity: {
-        token:
-          'eyJhbGciOiJFUzI1NiIsImtpZCI6IjAzZjlhOTBmLTYyZTgtNGZjNC04MzUxLTkyYjI2Yzg4MDIyMSJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAvYXBpL2F1dGgiLCJzdWIiOiJ1c2VyOmRlZmF1bHQvcHJhdGVlay13YXluZSIsImVudCI6WyJ1c2VyOmRlZmF1bHQvcHJhdGVlay13YXluZSJdLCJhdWQiOiJiYWNrc3RhZ2UiLCJpYXQiOjE2OTg5MjI2MzQsImV4cCI6MTY5ODkyNjIzNH0.IqKYOPwT9aJZu_OTqOmWxGirYjP3JSRRB7zIYyswmnRgcR302EzTXTeDfPzKgAup_i975pdUL97AsU3_TuhNXw',
-        identity: {
-          type: 'user',
-          userEntityRef: 'user:default/prateek-wayne',
-          ownershipEntityRefs: ['user:default/prateek-wayne'],
-        },
-      },
-      providerInfo: {
-        accessToken: 'ghu_FxFTgI9kxSxNDwZvcf8mCDq33Ue38J0ZcLWs',
-        scopes: {},
-        expiresAt: '2023-11-02T11:57:14.173Z',
-      },
-      profile: {
-        email: 'lordprateekverma@gmail.com',
-        picture: 'https://avatars.githubusercontent.com/u/114328592?v=4',
-        displayName: 'Prateek Wayne',
-      },
-    },
-  },
+  //   sessionManager: {
+  //     connector: {
+  //       discoveryApi: {
+  //         parts: ['http://localhost:3000/api/', ''],
+  //       },
+  //       environment: 'development',
+  //       provider: {
+  //         id: 'github',
+  //         title: 'GitHub',
+  //       },
+  //       enableExperimentalRedirectFlow: true,
+  //     },
+  //     helper: {
+  //       options: {
+  //         defaultScopes: {},
+  //       },
+  //     },
+  //     stateTracker: {
+  //       subject: {
+  //         isClosed: false,
+  //         currentValue: 'SignedIn',
+  //         observable: {},
+  //         subscribers: {},
+  //       },
+  //       signedIn: true,
+  //     },
+  //     currentSession: {
+  //       backstageIdentity: {
+  //         token:
+  //           'eyJhbGciOiJFUzI1NiIsImtpZCI6IjAzZjlhOTBmLTYyZTgtNGZjNC04MzUxLTkyYjI2Yzg4MDIyMSJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAvYXBpL2F1dGgiLCJzdWIiOiJ1c2VyOmRlZmF1bHQvcHJhdGVlay13YXluZSIsImVudCI6WyJ1c2VyOmRlZmF1bHQvcHJhdGVlay13YXluZSJdLCJhdWQiOiJiYWNrc3RhZ2UiLCJpYXQiOjE2OTg5MjI2MzQsImV4cCI6MTY5ODkyNjIzNH0.IqKYOPwT9aJZu_OTqOmWxGirYjP3JSRRB7zIYyswmnRgcR302EzTXTeDfPzKgAup_i975pdUL97AsU3_TuhNXw',
+  //         identity: {
+  //           type: 'user',
+  //           userEntityRef: 'user:default/prateek-wayne',
+  //           ownershipEntityRefs: ['user:default/prateek-wayne'],
+  //         },
+  //       },
+  //       providerInfo: {
+  //         accessToken: 'ghu_FxFTgI9kxSxNDwZvcf8mCDq33Ue38J0ZcLWs',
+  //         scopes: {},
+  //         expiresAt: '2023-11-02T11:57:14.173Z',
+  //       },
+  //       profile: {
+  //         email: 'lordprateekverma@gmail.com',
+  //         picture: 'https://avatars.githubusercontent.com/u/114328592?v=4',
+  //         displayName: 'Prateek Wayne',
+  //       },
+  //     },
+  //   },
   getAccessToken: async () => {
     return '12345';
   },
@@ -207,28 +207,6 @@ describe('ScoreCard-TestWithData', () => {
 
   const mockClient = new MockClient();
 
-  // TODO: find how to stop render the progress bar and display the ScoreCardTable
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // it('should render title', async () => {
-  //   jest.useFakeTimers();
-
-  //   const errorApi = { post: () => {} };
-  //   const { container } = render(
-  //     <ThemeProvider theme={lightTheme}>
-  //       <TestApiProvider
-  //         apis={[
-  //           [errorApiRef, errorApi],
-  //           [scoringDataApiRef, mockClient],
-  //         ]}
-  //       >
-  //         <ScoreCardTable title="Custom title"/>
-  //       </TestApiProvider>
-  //     </ThemeProvider>,
-  //   );
-
-  //   expect(container).toHaveTextContent('Custom title');
-  // });
-
   it('should render scoreLabel', async () => {
     const errorApi = { post: () => {} };
     const { getByText, findByTestId } = render(
@@ -283,55 +261,55 @@ describe('ScoreCard-TestWithData', () => {
   });
 });
 
-// describe('ScoreCardTable', () => {
-//   class MockClient implements ScoringDataApi {
-//     getScore(
-//       _entity?: Entity | undefined,
-//       _auth?: typeof githubAuthApiRef | undefined,
-//     ): Promise<EntityScoreExtended | undefined> {
-//       return new Promise<EntityScoreExtended | undefined>(
-//         (resolve, _reject) => {
-//           resolve(undefined);
-//         },
-//       );
-//     }
-//     getAllScores(): Promise<EntityScoreExtended[] | undefined> {
-//       return new Promise<EntityScoreExtended[] | undefined>(
-//         (resolve, _reject) => {
-//           const sampleData = require('dymmy');
-//           resolve(sampleData);
-//         },
-//       );
-//     }
-//   }
+describe('ScoreCardTable', () => {
+  class MockClient implements ScoringDataApi {
+    getScore(
+      _entity?: Entity | undefined,
+      _auth?: typeof githubAuthApiRef | undefined,
+    ): Promise<EntityScoreExtended | undefined> {
+      return new Promise<EntityScoreExtended | undefined>(
+        (resolve, _reject) => {
+          resolve(undefined);
+        },
+      );
+    }
+    getAllScores(): Promise<EntityScoreExtended[] | undefined> {
+      return new Promise<EntityScoreExtended[] | undefined>(
+        (resolve, _reject) => {
+          const sampleData = require('dymmy');
+          resolve(sampleData);
+        },
+      );
+    }
+  }
 
-//   const mockClient = new MockClient();
+  const mockClient = new MockClient();
 
-//   it('should render title2', async () => {
-//     jest.useFakeTimers();
+  it('should render title2', async () => {
+    jest.useFakeTimers();
 
-//     const errorApi = { post: () => {} };
-//     const { container } = render(
-//       <ThemeProvider theme={lightTheme}>
-//         <TestApiProvider
-//           apis={[
-//             [errorApiRef, errorApi],
-//             [scoringDataApiRef, mockClient],
-//             [githubAuthApiRef, sharedGithubAuthApi],
-//           ]}
-//         >
-//           <Router>
-//             <EntityProvider entity={entity}>
-//               <ScoreTable scores={[]} />
-//             </EntityProvider>
-//           </Router>
-//         </TestApiProvider>
-//       </ThemeProvider>,
-//     );
+    const errorApi = { post: () => {} };
+    const { container } = render(
+      <ThemeProvider theme={lightTheme}>
+        <TestApiProvider
+          apis={[
+            [errorApiRef, errorApi],
+            [scoringDataApiRef, mockClient],
+            [githubAuthApiRef, sharedGithubAuthApi],
+          ]}
+        >
+          <Router>
+            <EntityProvider entity={entity}>
+              <EntityScoreCardTable />
+            </EntityProvider>
+          </Router>
+        </TestApiProvider>
+      </ThemeProvider>,
+    );
 
-//     expect(container).toHaveTextContent(/Score/i);
-//     expect(container).toHaveTextContent(/Reviewer/i);
-//     expect(container).toHaveTextContent(/Date/i);
-//     expect(container).toBeInTheDocument();
-//   });
-// });
+    expect(container).toHaveTextContent(/Score/i);
+    expect(container).toHaveTextContent(/Reviewer/i);
+    expect(container).toHaveTextContent(/Date/i);
+    expect(container).toBeInTheDocument();
+  });
+});
