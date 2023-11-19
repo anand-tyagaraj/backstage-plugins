@@ -276,7 +276,7 @@ describe('ScoreCardTable', () => {
     getAllScores(): Promise<EntityScoreExtended[] | undefined> {
       return new Promise<EntityScoreExtended[] | undefined>(
         (resolve, _reject) => {
-          const sampleData = require('dymmy');
+          const sampleData = require('../../../sample-data/all.json');
           resolve(sampleData);
         },
       );
