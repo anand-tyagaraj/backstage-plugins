@@ -122,11 +122,9 @@ describe('ScoreBoardPage-EmptyData', () => {
             [githubAuthApiRef, mockAuth],
           ]}
         >
-          <Router>
-            <EntityProvider entity={entity}>
-              <EntityScoreCardTable />
-            </EntityProvider>
-          </Router>
+          <EntityProvider entity={entity}>
+            <EntityScoreCardTable />
+          </EntityProvider>
         </TestApiProvider>
       </ThemeProvider>,
     );
@@ -171,11 +169,9 @@ describe('ScoreCard-TestWithData', () => {
             [githubAuthApiRef, mockAuth],
           ]}
         >
-          <Router>
-            <EntityProvider entity={entity}>
-              <EntityScoreCardTable />
-            </EntityProvider>
-          </Router>
+          <EntityProvider entity={entity}>
+            <EntityScoreCardTable />
+          </EntityProvider>
         </TestApiProvider>
       </ThemeProvider>,
     );
@@ -201,11 +197,9 @@ describe('ScoreCard-TestWithData', () => {
             [githubAuthApiRef, sharedGithubAuthApi],
           ]}
         >
-          <Router>
-            <EntityProvider entity={entity}>
-              <EntityScoreCardTable title="testTitle" />
-            </EntityProvider>
-          </Router>
+          <EntityProvider entity={entity}>
+            <EntityScoreCardTable title="testTitle" />
+          </EntityProvider>
         </TestApiProvider>
       </ThemeProvider>,
     );
