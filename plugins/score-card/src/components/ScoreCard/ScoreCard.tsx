@@ -129,7 +129,7 @@ export const ScoreCard = ({
 
   return (
     <InfoCard
-      title="Scoring"
+      title="Entity Score"
       variant={variant}
       headerProps={{
         action: qualityBadge,
