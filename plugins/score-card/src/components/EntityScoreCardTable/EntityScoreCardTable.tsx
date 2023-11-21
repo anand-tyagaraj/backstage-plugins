@@ -65,9 +65,5 @@ export const EntityScoreCardTable = ({
     return getWarningPanel(error);
   }
 
-  return (
-    // <MemoryRouter>
-    <ScoreTable title={title} scores={data || []} />
-    // </MemoryRouter>
-  );
+  return <ScoreTable title={title} scores={data || []} />;
 };
