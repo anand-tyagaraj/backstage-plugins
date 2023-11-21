@@ -50,7 +50,7 @@ describe('score-card', () => {
         'include',
         '/catalog/default/system/audio-playback/score',
       );
-      cy.contains('Scoring').should('be.visible');
+      cy.contains('Entity Score').should('be.visible');
       cy.contains('Total score: 57 %').should('be.visible');
       cy.contains('Code').should('be.visible');
       cy.contains('90 %').should('be.visible');
