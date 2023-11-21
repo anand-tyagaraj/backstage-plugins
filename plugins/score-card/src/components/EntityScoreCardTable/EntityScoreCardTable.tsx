@@ -25,7 +25,7 @@ import { getWarningPanel } from '../../helpers/getWarningPanel';
 import { scoringDataApiRef } from '../../api';
 import { ScoreTable } from '../ScoreCardTable/ScoreCardTable';
 import { useEntity } from '@backstage/plugin-catalog-react';
-import { MemoryRouter } from 'react-router-dom';
+// import { MemoryRouter } from 'react-router-dom';
 
 const useScoringAllDataLoader = (entityKindFilter?: string[]) => {
   const errorApi = useApi(errorApiRef);
@@ -67,8 +67,8 @@ export const EntityScoreCardTable = ({
   }
 
   return (
-    <MemoryRouter>
-      <ScoreTable title={title} scores={data || []} />
-    </MemoryRouter>
+    // <MemoryRouter>
+    <ScoreTable title={title} scores={data || []} />
+    // </MemoryRouter>
   );
 };
