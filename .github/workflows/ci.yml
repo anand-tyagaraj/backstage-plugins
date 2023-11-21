@@ -2,12 +2,12 @@ name: 'CI workflow'
 
 on:
   workflow_dispatch:
-  pull_request_target:
-    branches:
-      - main
+  # pull_request_target:
+  #   branches:
+  #     - main
   push:
     branches:
-      - main
+      - feature/annotation-way
 
 permissions:
   contents: read
@@ -32,7 +32,7 @@ jobs:
         uses: actions/checkout@v2
         if: github.event_name == 'pull_request_target'
         with:
-          ref: "refs/pull/${{ github.event.number }}/merge"
+          ref: 'refs/pull/${{ github.event.number }}/merge'
           fetch-depth: '0'
 
       - name: Use Node.js ${{ matrix.node-version }}
