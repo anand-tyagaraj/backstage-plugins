@@ -18,7 +18,7 @@ export interface Config {
   /**
    * Extra configuration for score card plugin
    */
-  scorecards: {
+  scorecards?: {
     /**
      * The public absolute root URL with json file defining the score card entries.
      * @visibility frontend
