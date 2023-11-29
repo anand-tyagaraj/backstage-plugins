@@ -28,7 +28,7 @@ import { rootRouteRef } from './routes';
 
 export { ScoreCardTable } from './components/ScoreCardTable';
 
-export { EntityScoreCardTable } from './components/EntityScoreCardTable';
+export { EntityScoreBoardTable } from './components/EntityScoreBoardTable';
 
 export const scoreCardPlugin = createPlugin({
   id: 'score-card',

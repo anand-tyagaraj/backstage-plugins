@@ -31,7 +31,7 @@ You may drill down to the details of each score together with explanation why it
 
 ![Score Card Detail](./docs/.assets/score-card-detail.png)
 
-### EntityScoreCardTable
+### EntityScoreBoardTable
 
 Table that displays list of entities and their scores. This is different from ScoreCardTable as this component could be directly used in Entity Context within catalog as shown below:
 
@@ -39,7 +39,7 @@ Table that displays list of entities and their scores. This is different from Sc
 <EntityLayout.Route path="/score" title="Score">
   <Grid container spacing={3} alignItems="stretch">
     <Grid item xs={12}>
-      <EntityScoreCardTable />
+      <EntityScoreBoardTable />
     </Grid>
   </Grid>
 </EntityLayout.Route>
@@ -165,10 +165,12 @@ All configuration options:
    );
    ```
 
-5. Add Score Card Table to `packages/app/src/components/catalog/EntityPage.tsx` if you would like to view multiple component scores in tabular format:
+5. If we want to have tabular Score board containing high level score of more than one component, we could add EntityScoreBoardTable as shown below. Note that the difference between EntityScoreBoardTable and ScoreCardTable is that EntityScoreBoardTable works in the context of an Entity. That means that the Score JSON could also be read from the Component's catalog-info.yaml's Scorecard annotation as mentioned in [ Configuring through catalog-info.yaml annotations](#configuring-through-catalog-infoyaml-annotations)
+
+Add EntityScoreBoardTable to `packages/app/src/components/catalog/EntityPage.tsx` if you would like to view multiple component scores in tabular format:
 
 ```diff
-+import { EntityScoreCardTable } from '@oriflame/backstage-plugin-score-card';
++import { EntityScoreBoardTable } from '@oriflame/backstage-plugin-score-card';
 
 const systemPage = (
    <EntityLayoutWrapper>
@@ -179,7 +181,7 @@ const systemPage = (
 +    <EntityLayout.Route path="/score" title="Score">
 +      <Grid container spacing={3} alignItems="stretch">
 +        <Grid item xs={12}>
-+          <EntityScoreCardTable />
++          <EntityScoreBoardTable />
 +        </Grid>
 +      </Grid>
 +    </EntityLayout.Route>

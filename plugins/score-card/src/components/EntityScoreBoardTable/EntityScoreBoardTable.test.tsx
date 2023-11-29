@@ -16,7 +16,7 @@
  */
 import React from 'react';
 import { act, render } from '@testing-library/react';
-import { EntityScoreCardTable } from './EntityScoreCardTable';
+import { EntityScoreBoardTable } from './EntityScoreBoardTable';
 import { TestApiProvider } from '@backstage/test-utils';
 import { ScoringDataApi, scoringDataApiRef } from '../../api';
 import { Entity } from '@backstage/catalog-model';
@@ -124,7 +124,7 @@ describe('ScoreBoardPage-EmptyData', () => {
         >
           <Router>
             <EntityProvider entity={entity}>
-              <EntityScoreCardTable />
+              <EntityScoreBoardTable />
             </EntityProvider>
           </Router>
         </TestApiProvider>
@@ -173,7 +173,7 @@ describe('ScoreCard-TestWithData', () => {
         >
           <Router>
             <EntityProvider entity={entity}>
-              <EntityScoreCardTable />
+              <EntityScoreBoardTable />
             </EntityProvider>
           </Router>
         </TestApiProvider>
@@ -203,7 +203,7 @@ describe('ScoreCard-TestWithData', () => {
         >
           <Router>
             <EntityProvider entity={entity}>
-              <EntityScoreCardTable title="testTitle" />
+              <EntityScoreBoardTable title="testTitle" />
             </EntityProvider>
           </Router>
         </TestApiProvider>

@@ -49,7 +49,7 @@ type ScoreCardTableProps = {
   title?: string;
   entityKindFilter?: string[];
 };
-export const EntityScoreCardTable = ({
+export const EntityScoreBoardTable = ({
   title,
   entityKindFilter,
 }: ScoreCardTableProps) => {
