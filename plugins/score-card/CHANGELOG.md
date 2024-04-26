@@ -1,5 +1,11 @@
 # @oriflame/backstage-plugin-score-card
 
+## 0.9.0
+
+### Minor Changes
+
+- 500e616: Added config options to customize reviewer and review date display behavior
+
 ## 0.8.0
 
 ### Minor Changes
